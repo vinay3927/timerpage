@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="time">
+        <div class="circle" style="--clr:#fff;">
+            <div class="dots sec_dot"></div>
+            <svg>
+                <circle cx="70" cy="70" r="70"></circle>
+                <circle cx="70" cy="70" r="70" id="ss"></circle>
+            </svg>
+            <div id="seconds">30</div>
+        </div>
+    </div>
+    <br><br>
+    <div id="buttons">
+        <button id="addTimeButton">+10 seconds</button>
+        <button id="skipButton">Skip</button>
+    </div>
+
+    <script>
+        let seconds = document.getElementById('seconds');
+        let ss = document.getElementById('ss');
+        let sec_dot = document.querySelector('.sec_dot');
+        let totalTime = 30;
+        let elapsedSeconds = 0;
+
+        let x = setInterval(function() {
+            if (elapsedSeconds > totalTime) {
+                clearInterval(x); 
+                return;
+            }
+
+            let remainingSeconds = totalTime - elapsedSeconds;
+            seconds.innerHTML = remainingSeconds;
+
+            let strokeDashOffset = 440 - (440 * elapsedSeconds) / totalTime;
+            ss.style.strokeDashoffset = strokeDashOffset;
+
+            let rotation = (elapsedSeconds / totalTime) * 360; 
+            sec_dot.style.transform = `rotateZ(${rotation}deg)`;
+
+            elapsedSeconds++;
+        }, 1000);
+
+        document.getElementById('addTimeButton').addEventListener('click', function() {
+            totalTime += 10;
+        });
+
+        document.getElementById('skipButton').addEventListener('click', function() {
+            elapsedSeconds = totalTime;
+        });
+    </script>
+</body>
+</html>
